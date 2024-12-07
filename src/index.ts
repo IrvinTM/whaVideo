@@ -52,6 +52,8 @@ async function handleMessages(message:any) {
 }
 
 async function downloadVideo(url: string): Promise<PathLike> {
+    const cookie =
+    "example cookie"
     return new Promise(async (resolve, reject) => {
         try {
             const filePath: PathLike = path.join(__dirname, "video.mp4");
@@ -63,7 +65,12 @@ async function downloadVideo(url: string): Promise<PathLike> {
                 return reject(new Error("Desired format not available"));
             }
 
-            const stream = ytdl.downloadFromInfo(info, { quality: "highestaudio" }).pipe(fs.createWriteStream(filePath));
+            const stream = ytdl.downloadFromInfo(info, { quality: "highestaudio", requestOptions:{
+                headers:{
+                    cookie:cookie,
+                    'x-youtube-identity-token': "example",
+                }
+            } }).pipe(fs.createWriteStream(filePath));
 
             stream.on("finish", () => resolve(filePath));
             stream.on("error", (err) => reject(err));
