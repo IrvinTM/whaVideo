@@ -116,7 +116,7 @@ async function dlVideo(vid:string):Promise<string> {
 
       "-f",
 
-      "(bv*[height<=720][fps>30]/bv*[ext=mp4]/wv*[height<=720][fps>30]/wv*[ext=mp4])+ba/best[height<=720][fps>30]/best[ext=mp4]",
+      "bestvideo+bestaudio[ext=mp4]/mp4",
 
       "--cookies",
 
