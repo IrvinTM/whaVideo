@@ -1,4 +1,4 @@
-import path, { format } from "path";
+import path from "path";
 import fs, { PathLike } from "fs";
 import { spawn } from "child_process";
 import { Client } from "youtubei";
@@ -54,6 +54,8 @@ export async function dlVideo(vid: string): Promise<string> {
 
 export async function dlAudio(vid: string): Promise<string> {
   return new Promise((resolve, reject) => {
+
+console.log("cookies path : "+cookies)
     const argsForTitle = [
       "--print",
       "%(title)s",
