@@ -2,7 +2,9 @@
   "dependencies": {
     "@bot-wa/bot-wa-baileys": "^1.1.5",
     "@distube/ytdl-core": "^4.15.1",
-    "sharp": "^0.32.6"
+    "sharp": "^0.32.6",
+    "youtubei": "^1.6.7",
+    "youtubei.js": "^12.0.0"
   },
   "name": "whatsappbot",
   "version": "1.0.0",
