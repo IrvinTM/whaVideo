@@ -11,17 +11,17 @@ botBaileys.on("auth_failure", async (error) =>
 botBaileys.on("qr", (qr) => console.log("NEW QR CODE: ", qr));
 botBaileys.on("ready", async () => console.log("READY BOT"));
 
-const phoneNumbr = "50360280607@s.whatsapp.net";
+/* const phoneNumbr = "50360280607@s.whatsapp.net"; */
 
 botBaileys.on("message", async (message) => {
   handleMessages(message);
 });
 
 async function handleMessages(message:any) {
-  if (message.from !== phoneNumbr) {
+  /* if (message.from !== phoneNumbr) {
     botBaileys.sendText(message.from, "You don't have access to this bot");
     return;
-  }
+  } */
 
   const body = message.body;
 
