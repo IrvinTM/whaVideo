@@ -22,3 +22,20 @@ Este proyecto es un **Bot de WhatsApp** desarrollado con [Baileys](https://githu
    git clone https://github.com/tu-usuario/whatsapp-bot.git
    cd whatsapp-bot
    ```
+2. Instalar dependencias:
+   ```bash
+   npm install
+   ```
+3. Agregar cookies en formato Mozilla/Netscape(usualmente solo se necesita para desplegar en vps)
+
+Ver guia en [yt-dlp](https://github.com/yt-dlp/yt-dlp/wiki/FAQ#how-do-i-pass-cookies-to-yt-dlp)
+
+4. Iniciar el bot.
+```bash
+   npm run start
+   ```
+5. Iniciar sesion con Whatsapp
+
+Iniciar sesion con el numero a usar para el bot escaneando el qr mostrado en la terminal
+
+
