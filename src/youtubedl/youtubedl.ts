@@ -155,7 +155,7 @@ export async function searchVids(searchParam: string): Promise<string> {
 
   if (videos.items && videos.items.length > 0) {
     const ids = videos.items
-      .map((item) => `Title: ${item.title} ID: ${item.id}`)
+      .map((item) => `Title: ${item.title} Channel: ${item.channel} ID: ${item.id}|||\n`)
       .join("\n");
     return ids;
   } else {
