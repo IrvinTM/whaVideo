@@ -1,5 +1,5 @@
 
-# Proyecto Bot de WhatsApp
+# Bot de WhatsApp para YouTube
 
 Este proyecto es un **Bot de WhatsApp** desarrollado con para interactuar con WhatsApp Web. Incluye funciones para buscar videos en YouTube, descargar videos o audios, y enviarlos directamente a un chat de WhatsApp.
 
