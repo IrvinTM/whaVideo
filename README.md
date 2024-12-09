@@ -1,23 +1,23 @@
 
 # Proyecto Bot de WhatsApp
 
-Este proyecto es un **Bot de WhatsApp** desarrollado con [Baileys](https://github.com/adiwajshing/Baileys) para interactuar con WhatsApp Web. Incluye funciones para buscar videos en YouTube, descargar videos o audios, y enviarlos directamente a un chat de WhatsApp.
+Este proyecto es un **Bot de WhatsApp** desarrollado con para interactuar con WhatsApp Web. Incluye funciones para buscar videos en YouTube, descargar videos o audios, y enviarlos directamente a un chat de WhatsApp.
 
 ## Características
 
-- **Buscar Videos**: Usa un comando para buscar videos en YouTube.
-- **Descargar Videos**: Descarga un video de YouTube usando su ID y envíalo como archivo.
-- **Descargar Audio**: Descarga solo el audio de un video de YouTube usando su ID.
+- **Buscar Videos**: Usa el comando **Buscar** para buscar videos en YouTube.
+- **Descargar Videos**: Descarga un video de YouTube usando su ID con el comando ***Descargar*** ID
+- **Descargar Audio**: Descarga solo el audio de un video de YouTube usando su ID con **Audio** ID
 
 ## Requisitos
 
 - Node.js >= 16
-- Archivo de cookies exportado para acceder a YouTube
+- Archivo de cookies exportado para acceder a YouTube (solo para desplegar)
 - Dependencias del proyecto instaladas con `npm install`
 
 ## Instalación
 
-1. Clona este repositorio:
+1. Clonar este repositorio:
    ```bash
    git clone https://github.com/tu-usuario/whatsapp-bot.git
    cd whatsapp-bot
@@ -29,6 +29,7 @@ Este proyecto es un **Bot de WhatsApp** desarrollado con [Baileys](https://githu
 3. Agregar cookies en formato Mozilla/Netscape(usualmente solo se necesita para desplegar en vps)
 
 Ver guia en [yt-dlp](https://github.com/yt-dlp/yt-dlp/wiki/FAQ#how-do-i-pass-cookies-to-yt-dlp)
+El archivo cookies.txt debe estar en el directorio raiz del proyecto. 
 
 4. Iniciar el bot.
 ```bash
@@ -38,4 +39,7 @@ Ver guia en [yt-dlp](https://github.com/yt-dlp/yt-dlp/wiki/FAQ#how-do-i-pass-coo
 
 Iniciar sesion con el numero a usar para el bot escaneando el qr mostrado en la terminal
 
+## Problemas y Solución
+
+   **sign-in to confirm you are not a robot:** Asegúrate de que cookies.txt esté en el directorio raiz del proyecto y sea válido.
 
