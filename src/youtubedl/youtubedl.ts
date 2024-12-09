@@ -10,6 +10,8 @@ const cookies = path.join(__dirname, "../cookies.txt");
 export async function dlVideo(vid: string): Promise<string> {
   return new Promise((resolve, reject) => {
     const output = path.join(__dirname, `videopipi.%(ext)s`);
+    const logs = path.join(__dirname, "logsYoutube.log")
+const logStream = fs.createWriteStream(logs, { flags: "a" });
 
     const args = [
       "-f",
@@ -28,10 +30,21 @@ export async function dlVideo(vid: string): Promise<string> {
     ];
 
     const process = spawn(binPath, args);
+    
+    process.stdout.on("data", (data) => {
+      console.log(`STDOUT: ${data}`);
+      logStream.write(`STDOUT: ${data}`);
+    });
+
+    process.stderr.on("data", (data) => {
+      console.error(`STDERR: ${data}`);
+      logStream.write(`STDERR: ${data}`);
+    });
 
     process.on("close", (code) => {
       const mp4 = path.join(__dirname, "videopipi.mp4");
       const webm = path.join(__dirname, "videopipi.webm");
+      logStream.end()
 
       if (code === 0) {
         if (fs.existsSync(mp4)) {
@@ -46,7 +59,7 @@ export async function dlVideo(vid: string): Promise<string> {
 
     process.on("error", (err) => {
       console.error(`yt-dlp process failed: ${err}`);
-
+      
       reject(`yt-dlp error: ${err.message}`);
     });
   });
