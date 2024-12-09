@@ -70,7 +70,7 @@ async function handleMessages(message:any) {
       } catch (error: any) {
         botBaileys.sendText(
           message.from,
-          `Error al descargar el video: ${error.message}`
+          `Error al descargar el video: ${error}`
         );
       }
       break;
