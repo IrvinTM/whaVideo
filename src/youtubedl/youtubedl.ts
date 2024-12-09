@@ -155,7 +155,7 @@ export async function searchVids(searchParam: string): Promise<string> {
 
   if (videos.items && videos.items.length > 0) {
     const ids = videos.items
-      .map((item) => `Title: ${item.title} Channel: ${item.channel} ID: ${item.id}|||\n`)
+      .map((item) => `*Titulo:* ${item.title} \n *Canal:* _${item.channel?.name}_ \n *Duracion:* ${formatDuration(item.duration)} \n *Subido:*  ${item.uploadDate} \n *ID:* ${item.id}\n`)
       .join("\n");
     return ids;
   } else {
@@ -163,3 +163,9 @@ export async function searchVids(searchParam: string): Promise<string> {
   }
 }
 
+function formatDuration(seconds: number | null): string {
+  const totalSeconds = seconds ?? 0;
+  const minutes = Math.floor(totalSeconds / 60);
+  const secondsRemainder = totalSeconds % 60;
+  return `${minutes} minutos y ${secondsRemainder} segundos`;
+}

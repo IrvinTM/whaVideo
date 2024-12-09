@@ -26,9 +26,9 @@ async function handleMessages(message:any) {
   const body = message.body;
 
   switch (true) {
-    case body.startsWith("search"): {
-      const textToSearch = body.replace("search", "").trim();
-      botBaileys.sendText(message.from, "Searching for: " + textToSearch);
+    case body.startsWith("Buscar"): {
+      const textToSearch = body.replace("Buscar", "").trim();
+      botBaileys.sendText(message.from, "*Buscando:* " + textToSearch);
 
       try {
         const result = await searchVids(textToSearch);
@@ -51,9 +51,9 @@ async function handleMessages(message:any) {
       break;
     }
 
-    case body.startsWith("dl"): {
-      const videoId = body.replace("dl", "").trim()
-        botBaileys.sendText(message.from, "Downloading video ");
+    case body.startsWith("Descargar"): {
+      const videoId = body.replace("Descargar", "").trim()
+        botBaileys.sendText(message.from, "Descargando el video por favor espera...");
       try {
         if (videoId) {
           const videoPath: string = await dlVideo(videoId);
@@ -61,7 +61,7 @@ async function handleMessages(message:any) {
           if (videoPath) {
             await botBaileys.sendText(
               message.from,
-              "Download complete! Sending video..."
+              "Descarga completa! Obtendras el video en un momento..."
             );
             await botBaileys.sendFile(message.from, videoPath);
             deleteFile(videoPath);
@@ -70,15 +70,15 @@ async function handleMessages(message:any) {
       } catch (error: any) {
         botBaileys.sendText(
           message.from,
-          `Failed to download video: ${error.message}`
+          `Error al descargar el video: ${error.message}`
         );
       }
       break;
     }
-    case body.startsWith("audio"):{
+    case body.startsWith("Audio"):{
         try{
-            const id = body.replace("audio", "").trim()
-            await botBaileys.sendText(message.from, "Descargando audio")
+            const id = body.replace("Audio", "").trim()
+            await botBaileys.sendText(message.from, "Descargando audio...")
             const audio = await dlAudio(id)
             if (fs.existsSync(audio)) {
             await botBaileys.sendFile(message.from, audio)
@@ -91,17 +91,17 @@ async function handleMessages(message:any) {
     }
 
     default:
-      botBaileys.sendText(message.from, `comando no valido 
+      botBaileys.sendText(message.from, `comando no valido\n
         enviar:
-         search "video a buscar" para buscar videos 
-         dl "id del video" para descargar un video
-         audio "id del video" para descargar solo el audio
+         *Buscar* "video a buscar" para buscar videos 
+         *Descargar* "id del video" para descargar un video
+         *Audio* "id del video" para descargar solo el audio
          
-         ejemplo:
-         search linkin park the emptiness machine
+         Ejemplo:
+         Buscar linkin park the emptiness machine
 
-         ejemplo:
-         dl SRXH9AbT280
+         Ejemplo:
+         Descargar  SRXH9AbT280
         `);
       break;
   }
