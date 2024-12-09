@@ -14,6 +14,7 @@ Este proyecto es un **Bot de WhatsApp** desarrollado con para interactuar con Wh
 - Node.js >= 16
 - Archivo de cookies exportado para acceder a YouTube (solo para desplegar)
 - Dependencias del proyecto instaladas con `npm install`
+- ffmpeg y ffprobe instalados (para combinar archivos de audio y video)
 
 ## Instalación
 
