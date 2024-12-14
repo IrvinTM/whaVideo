@@ -7,6 +7,8 @@ const youtube = new Client();
 const binPath = path.join(__dirname, "../bin/yt-dlp");
 const cookies = path.join(__dirname, "../cookies.txt");
 
+
+//TODO download according to param quality
 export async function dlVideo(vid: string): Promise<string> {
   return new Promise((resolve, reject) => {
     const output = path.join(__dirname, `videopipi.%(ext)s`);

@@ -14,7 +14,8 @@
     "typescript-eslint": "^8.17.0"
   },
   "scripts": {
-    "start": "tsc  && cp -r src/bin dist/bin/ && cp cookies.txt dist/ && node ./dist/index.js",
+    "start": "tsc  && cp -r src/bin dist/bin/ && cp cookies.txt dist/",
+    "serve": "node dist/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
