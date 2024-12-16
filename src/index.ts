@@ -84,6 +84,38 @@ async function handleMessages(message: any) {
       }
       break;
     }
+    case body.toLowerCase().startsWith("video calidad"): {
+      const args: string[] = body.toLowerCase().split(" ")
+      if (args.length != 4) {
+        botBaileys.sendText(message.from, "Argumentos no validos: video [calidad] [idDelVideo]")
+        return
+      }
+      const videoId = args[3]
+      botBaileys.sendText(
+        message.from,
+        `Descargando el video en calidad ${args[2]} por favor espera...`,
+      );
+      try {
+        if (videoId) {
+          const videoPath: string = await dlVideo(videoId);
+
+          if (videoPath) {
+            await botBaileys.sendText(
+              message.from,
+              "Descarga completa! Obtendras el video en un momento...",
+            );
+            await botBaileys.sendFile(message.from, videoPath);
+            deleteFile(videoPath);
+          }
+        }
+      } catch (error: any) {
+        botBaileys.sendText(
+          message.from,
+          `Error al descargar el video: ${error}`,
+        );
+      }
+      break;
+    }
     case body.startsWith("Audio"): {
       try {
         const id = body.replace("Audio", "").trim();
@@ -97,10 +129,29 @@ async function handleMessages(message: any) {
       }
       break;
     }
-    case body.toLowerCase().startsWith("ai"): {
-      const prompt = body.toLowerCase().replace("ai", "")
-      const answer = await getGeminiCompletion(prompt)
-      await botBaileys.sendText(message.from, answer)
+    case body.toLowerCase().startsWith("gemini"): {
+
+      try {
+        const prompt = body.toLowerCase().replace("gemini", "")
+        const answer = await getGeminiCompletion(prompt, undefined, true)
+        await botBaileys.sendText(message.from, answer)
+      }
+      catch (e: any) {
+        botBaileys.sendText(message.from, e.message)
+      }
+      break;
+    }
+
+    case body.toLowerCase().startsWith("quick"): {
+
+      try {
+        const prompt = body.toLowerCase().replace("quick", "")
+        const answer = await getGeminiCompletion(prompt)
+        await botBaileys.sendText(message.from, answer)
+      }
+      catch (e: any) {
+        botBaileys.sendText(message.from, e)
+      }
       break;
     }
 

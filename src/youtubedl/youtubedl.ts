@@ -8,33 +8,37 @@ const cookies = path.join(__dirname, "../cookies.txt");
 
 
 //TODO download according to param quality
-export async function dlVideo(vid: string, quality?:string): Promise<string> {
+export async function dlVideo(vid: string, quality?: string): Promise<string> {
   return new Promise((resolve, reject) => {
     const output = path.join(__dirname, `videopipi.%(ext)s`);
     const logs = path.join(__dirname, "logsYoutube.log")
-const logStream = fs.createWriteStream(logs, { flags: "a" });
- let qua:string = "bv*[ext=mp4][height<=720]+ba/b[ext=mp4][height<=720] / bv*[ext=webm][height<=720]+ba/b[ext=webm][height<=720]"
+    const logStream = fs.createWriteStream(logs, { flags: "a" });
+    let qua: string = "bv*[ext=mp4][height<=720]+ba/b[ext=mp4][height<=720] / bv*[ext=webm][height<=720]+ba/b[ext=webm][height<=720]"
 
- const less1080: string = "bv*[height<=1080]+ba/b[height<=1080] / wv*+ba/w"
- const less720: string = "bv*[height<=720]+ba/b[height<=720] / wv*+ba/w"
- const less480: string = "bv*[height<=480]+ba/b[height<=480] / wv*+ba/w"
- 
- if (quality) {
-   switch(quality){
-    case "1080":
-      qua = less1080
-      break
-    case "720":
-      qua = less720
-      break
-    case "480":
-      qua = less480
-      break
-    default:
+    const less1080: string = "bv*[height<=1080]+ba/b[height<=1080] / wv*+ba/w"
+    const less720: string = "bv*[height<=720]+ba/b[height<=720] / wv*+ba/w"
+    const less480: string = "bv*[height<=480]+ba/b[height<=480] / wv*+ba/w"
+    const def: string = "bv*+ba/b"
 
-   }
-  
- }
+    if (quality) {
+      switch (quality) {
+        case "1080":
+          qua = less1080
+          break
+        case "720":
+          qua = less720
+          break
+        case "480":
+          qua = less480
+          break
+        case "default":
+          qua = def
+          break
+        default:
+
+      }
+
+    }
 
     const args = [
       "-f",
@@ -53,7 +57,7 @@ const logStream = fs.createWriteStream(logs, { flags: "a" });
     ];
 
     const process = spawn(binPath, args);
-    
+
     process.stdout.on("data", (data) => {
       console.log(`STDOUT: ${data}`);
       logStream.write(`STDOUT: ${data}`);
@@ -82,7 +86,7 @@ const logStream = fs.createWriteStream(logs, { flags: "a" });
 
     process.on("error", (err) => {
       console.error(`yt-dlp process failed: ${err}`);
-      
+
       reject(`yt-dlp error: ${err.message}`);
     });
   });
@@ -91,7 +95,7 @@ const logStream = fs.createWriteStream(logs, { flags: "a" });
 export async function dlAudio(vid: string): Promise<string> {
   return new Promise((resolve, reject) => {
 
-console.log("cookies path : "+cookies)
+    console.log("cookies path : " + cookies)
     const argsForTitle = [
       "--print",
       "%(title)s",
