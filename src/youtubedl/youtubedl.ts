@@ -14,7 +14,7 @@ export async function dlVideo(vid: string, quality?: string): Promise<string> {
     const logs = path.join(__dirname, "logsYoutube.log")
     const logStream = fs.createWriteStream(logs, { flags: "a" });
     let qua: string = "bv*[ext=mp4][height<=720]+ba/b[ext=mp4][height<=720] / bv*[ext=webm][height<=720]+ba/b[ext=webm][height<=720]"
-
+    //TODO figure out the best way to get an specific resolution
     const less1080: string = "bv*[height<=1080]+ba/b[height<=1080] / wv*+ba/w"
     const less720: string = "bv*[height<=720]+ba/b[height<=720] / wv*+ba/w"
     const less480: string = "bv*[height<=480]+ba/b[height<=480] / wv*+ba/w"

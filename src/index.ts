@@ -129,10 +129,10 @@ async function handleMessages(message: any) {
       }
       break;
     }
-    case body.toLowerCase().startsWith("gemini"): {
+    case body.toLowerCase().startsWith("ia"): {
 
       try {
-        const prompt = body.toLowerCase().replace("gemini", "")
+        const prompt = body.toLowerCase().replace("ia", "")
         const answer = await getGeminiCompletion(prompt, undefined, true)
         await botBaileys.sendText(message.from, answer)
       }
@@ -142,10 +142,10 @@ async function handleMessages(message: any) {
       break;
     }
 
-    case body.toLowerCase().startsWith("quick"): {
+    case body.toLowerCase().startsWith("f ia"): {
 
       try {
-        const prompt = body.toLowerCase().replace("quick", "")
+        const prompt = body.toLowerCase().replace("f ia", "")
         const answer = await getGeminiCompletion(prompt)
         await botBaileys.sendText(message.from, answer)
       }
@@ -163,6 +163,9 @@ async function handleMessages(message: any) {
          *Buscar* "video a buscar" para buscar videos
          *Descargar* "id del video" para descargar un video
          *Audio* "id del video" para descargar solo el audio
+         *ia* "mensaje" para hablar con la ia 
+         *reset ia* para resetear la conversacion *recomendado*
+         *f ia* "mensaje" para una respuesta sin recordar la conversacion
 
          Ejemplo:
          Buscar linkin park the emptiness machine
