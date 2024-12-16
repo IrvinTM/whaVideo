@@ -1,6 +1,5 @@
 import path from "path";
-import fs, { PathLike } from "fs";
-import { spawn } from "child_process";
+import fs, { PathLike } from "fs"; import { spawn } from "child_process";
 import { Client } from "youtubei";
 
 const youtube = new Client();
@@ -9,16 +8,38 @@ const cookies = path.join(__dirname, "../cookies.txt");
 
 
 //TODO download according to param quality
-export async function dlVideo(vid: string): Promise<string> {
+export async function dlVideo(vid: string, quality?:string): Promise<string> {
   return new Promise((resolve, reject) => {
     const output = path.join(__dirname, `videopipi.%(ext)s`);
     const logs = path.join(__dirname, "logsYoutube.log")
 const logStream = fs.createWriteStream(logs, { flags: "a" });
+ let qua:string = "bv*[ext=mp4][height<=720]+ba/b[ext=mp4][height<=720] / bv*[ext=webm][height<=720]+ba/b[ext=webm][height<=720]"
+
+ const less1080: string = "bv*[height<=1080]+ba/b[height<=1080] / wv*+ba/w"
+ const less720: string = "bv*[height<=720]+ba/b[height<=720] / wv*+ba/w"
+ const less480: string = "bv*[height<=480]+ba/b[height<=480] / wv*+ba/w"
+ 
+ if (quality) {
+   switch(quality){
+    case "1080":
+      qua = less1080
+      break
+    case "720":
+      qua = less720
+      break
+    case "480":
+      qua = less480
+      break
+    default:
+
+   }
+  
+ }
 
     const args = [
       "-f",
 
-      "bv*[ext=mp4][height<=720]+ba/b[ext=mp4][height<=720] / bv*[ext=webm][height<=720]+ba/b[ext=webm][height<=720]",
+      qua,
 
       "--cookies",
 

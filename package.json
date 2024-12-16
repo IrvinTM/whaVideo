@@ -1,20 +1,19 @@
 {
   "dependencies": {
     "@bot-wa/bot-wa-baileys": "^1.1.5",
+    "@google/generative-ai": "^0.21.0",
+    "dotenv": "^16.4.7",
     "youtubei": "^1.6.7"
   },
   "name": "whatsappbot",
   "version": "1.0.0",
   "main": "index.js",
   "devDependencies": {
-    "@eslint/js": "^9.16.0",
-    "eslint": "^8.57.1",
     "globals": "^15.13.0",
-    "typescript": "^5.7.2",
-    "typescript-eslint": "^8.17.0"
+    "typescript": "^5.7.2"
   },
   "scripts": {
-    "start": "tsc  && cp -r src/bin dist/bin/ && cp cookies.txt dist/",
+    "start": "tsc  && cp -r src/bin dist/bin/ && cp cookies.txt dist/ && cp .env dist/",
     "serve": "node dist/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

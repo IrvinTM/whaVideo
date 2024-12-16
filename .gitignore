@@ -2,3 +2,4 @@ node_modules
 dist
 bot_sessions
 cookies.txt
+.env
