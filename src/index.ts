@@ -6,7 +6,7 @@ import {
   dlAudio,
 } from "./youtubedl/youtubedl";
 import fs from "fs";
-import { getGeminiCompletion } from "./ai/gemini";
+import { getGeminiCompletion, resetConversation } from "./ai/gemini";
 
 const botBaileys = new BaileysClass({});
 
@@ -16,14 +16,15 @@ botBaileys.on("auth_failure", async (error) =>
 
 botBaileys.on("qr", (qr) => console.log("NEW QR CODE: ", qr));
 botBaileys.on("ready", async () => console.log("READY BOT"));
-
-/* const phoneNumbr = "50360280607@s.whatsapp.net"; */
+//restrict to just a number or array of 
+/* const phoneNumbr = "00000000@s.whatsapp.net"; */
 
 botBaileys.on("message", async (message) => {
   handleMessages(message);
 });
 
 async function handleMessages(message: any) {
+  //restrict
   /* if (message.from !== phoneNumbr) {
     botBaileys.sendText(message.from, "You don't have access to this bot");
     return;
@@ -153,6 +154,12 @@ async function handleMessages(message: any) {
         botBaileys.sendText(message.from, e)
       }
       break;
+    }
+
+    case body.toLowerCase().startsWith("reset ia"): {
+      resetConversation()
+      botBaileys.sendText(message.from, "conversacion borrada")
+      break
     }
 
     default:
