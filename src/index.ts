@@ -166,7 +166,7 @@ async function handleMessages(message: any) {
       const videoId = body.replace("noargs", "").trim();
       botBaileys.sendText(
         message.from,
-        "Descargando el video por favor espera...",
+        `Descargando el video ${videoId} por favor espera...`,
       );
       try {
         if (videoId) {
