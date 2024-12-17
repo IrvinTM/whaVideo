@@ -4,6 +4,7 @@ import {
   deleteFile,
   searchVids,
   dlAudio,
+  dlVideoNoArgs,
 } from "./youtubedl/youtubedl";
 import fs from "fs";
 import { getGeminiCompletion, resetConversation } from "./ai/gemini";
@@ -160,6 +161,33 @@ async function handleMessages(message: any) {
       resetConversation()
       botBaileys.sendText(message.from, "conversacion borrada")
       break
+    }
+    case body.toLowerCase().startsWith("noargs"): {
+      const videoId = body.replace("noargs", "").trim();
+      botBaileys.sendText(
+        message.from,
+        "Descargando el video por favor espera...",
+      );
+      try {
+        if (videoId) {
+          const videoPath: string = await dlVideoNoArgs(videoId);
+
+          if (videoPath) {
+            await botBaileys.sendText(
+              message.from,
+              "Descarga completa! Obtendras el video en un momento...",
+            );
+            await botBaileys.sendFile(message.from, videoPath);
+            deleteFile(videoPath);
+          }
+        }
+      } catch (error: any) {
+        botBaileys.sendText(
+          message.from,
+          `Error al descargar el video: ${error}`,
+        );
+      }
+      break;
     }
 
     default:

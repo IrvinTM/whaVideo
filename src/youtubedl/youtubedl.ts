@@ -118,11 +118,11 @@ export async function dlAudio(vid: string): Promise<string> {
     titleProcess.on("close", (code) => {
       if (code === 0) {
         title = title.trim().replace(/[\\/:*?"<>|]/g, ""); // Sanitize the title
-        const output = path.join(__dirname, `${title}.m4a`);
+        const output = path.join(__dirname, `${title}`);
 
         const argsForDownload = [
           "-f",
-          "bestaudio[ext=m4a]",
+          "bestaudio",
           "--cookies",
           cookies,
           "-o",
@@ -208,4 +208,59 @@ function formatDuration(seconds: number | null): string {
   const minutes = Math.floor(totalSeconds / 60);
   const secondsRemainder = totalSeconds % 60;
   return `${minutes} minutos y ${secondsRemainder} segundos`;
+}
+
+export async function dlVideoNoArgs(vid: string, quality?: string): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const output = path.join(__dirname, `videopipi.%(ext)s`);
+    const logs = path.join(__dirname, "logsYoutube.log")
+    const logStream = fs.createWriteStream(logs, { flags: "a" });
+
+    const args = [
+
+      "--cookies",
+
+      cookies,
+
+      "-o",
+
+      output,
+
+      `https://www.youtube.com/watch?v=${vid}`,
+    ];
+
+    const process = spawn(binPath, args);
+
+    process.stdout.on("data", (data) => {
+      console.log(`STDOUT: ${data}`);
+      logStream.write(`STDOUT: ${data}`);
+    });
+
+    process.stderr.on("data", (data) => {
+      console.error(`STDERR: ${data}`);
+      logStream.write(`STDERR: ${data}`);
+    });
+
+    process.on("close", (code) => {
+      const mp4 = path.join(__dirname, "videopipi.mp4");
+      const webm = path.join(__dirname, "videopipi.webm");
+      logStream.end()
+
+      if (code === 0) {
+        if (fs.existsSync(mp4)) {
+          resolve(mp4);
+        } else if (fs.existsSync(webm)) {
+          resolve(webm);
+        }
+      } else {
+        reject(`yt-dlp failed with exit code ${code}`);
+      }
+    });
+
+    process.on("error", (err) => {
+      console.error(`yt-dlp process failed: ${err}`);
+
+      reject(`yt-dlp error: ${err.message}`);
+    });
+  });
 }
