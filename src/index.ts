@@ -163,7 +163,7 @@ async function handleMessages(message: any) {
       break
     }
     case body.toLowerCase().startsWith("noargs"): {
-      const videoId = body.replace("noargs", "").trim();
+      const videoId = body.toLowerCase().replace("noargs", "").trim();
       botBaileys.sendText(
         message.from,
         `Descargando el video ${videoId} por favor espera...`,
