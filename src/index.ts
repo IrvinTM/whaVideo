@@ -137,6 +137,9 @@ async function handleMessages(message: any) {
         if (message.from == process.env.ADMIN) {
           const syspr = body.replace("Setsystemprompt", "").trim()
           setSystemPrompt(syspr)
+          botBaileys.sendText(message.from, "sistem prompt chnaged")
+        } else {
+          botBaileys.sendText(message.from, "no autorizado")
         }
         break;
       }
