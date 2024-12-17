@@ -121,9 +121,9 @@ export async function dlAudio(vid: string): Promise<string> {
         const output = path.join(__dirname, `${title}.m4a`);
 
         const argsForDownload = [
+          "-vU",
           "-f",
           "bestaudio",
-          "-vU",
           "--cookies",
           cookies,
           "-o",
