@@ -7,7 +7,7 @@ import {
   dlVideoNoArgs,
 } from "./youtubedl/youtubedl";
 import fs from "fs";
-import { getGeminiCompletion, resetConversation } from "./ai/gemini";
+import { getGeminiCompletion, resetConversation, setSystemPrompt } from "./ai/gemini";
 
 const botBaileys = new BaileysClass({});
 
@@ -132,6 +132,15 @@ async function handleMessages(message: any) {
       }
       break;
     }
+    case body.startsWith("Setsystemprompt"):
+      {
+        if (message.from == process.env.ADMIN) {
+          const syspr = body.replace("Setsystemprompt", "").trim()
+          setSystemPrompt(syspr)
+        }
+        break;
+      }
+
     case body.toLowerCase().startsWith("ia"): {
 
       try {

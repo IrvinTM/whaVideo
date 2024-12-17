@@ -2,7 +2,7 @@ import "dotenv/config";
 import { Content, GoogleGenerativeAI, Part, POSSIBLE_ROLES, StartChatParams } from "@google/generative-ai";
 
 const apikey = process.env.GAPIKEY;
-const systemPrompt = "Eres un bot de whatsapp dispuesto a ayudar tu nombre es Ashisogi Jizō."
+let systemPrompt = "Eres un bot de whatsapp dispuesto a ayudar tu nombre es Ashisogi Jizō."
 
 let startParams: StartChatParams = {
   history: []
@@ -77,4 +77,8 @@ export function resetConversation() {
     history: []
   }
   startParams = start
+}
+
+export function setSystemPrompt(sysPromt: string) {
+  systemPrompt = sysPromt
 }
