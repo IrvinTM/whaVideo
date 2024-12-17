@@ -95,61 +95,34 @@ export async function dlVideo(vid: string, quality?: string): Promise<string> {
 export async function dlAudio(vid: string): Promise<string> {
   return new Promise((resolve, reject) => {
 
-    console.log("cookies path : " + cookies)
-    const argsForTitle = [
-      "--print",
-      "%(title)s",
+    const output = path.join(__dirname, "audio.m4a")
+
+    const argsForDownload = [
+      "-vU",
+      "-f",
+      "bestaudio",
       "--cookies",
       cookies,
-      `https://www.youtube.com/watch?v=${vid}`,
+      "-o",
+      output,
+      `https://www.youtube.com/watch?app=desktop&v=${vid}`,
     ];
 
-    const titleProcess = spawn(binPath, argsForTitle);
-    let title = "";
+    const downloadProcess = spawn(binPath, argsForDownload);
 
-    titleProcess.stdout.on("data", (data) => {
-      title += data.toString();
+    downloadProcess.on("error", (err) =>
+      reject(`yt-dlp error: ${err.message}`)
+    );
+
+    downloadProcess.stderr.on("data", (data) => {
+      console.error(`yt-dlp download error: ${data}`);
     });
 
-    titleProcess.stderr.on("data", (data) => {
-      console.error(`yt-dlp title fetch error: ${data}`);
-    });
-
-    titleProcess.on("close", (code) => {
-      if (code === 0) {
-        title = title.trim().replace(/[\\/:*?"<>|]/g, ""); // Sanitize the title
-        const output = path.join(__dirname, `${title}.m4a`);
-
-        const argsForDownload = [
-          "-vU",
-          "-f",
-          "bestaudio",
-          "--cookies",
-          cookies,
-          "-o",
-          output,
-          `https://www.youtube.com/watch?app=desktop&v=${vid}`,
-        ];
-
-        const downloadProcess = spawn(binPath, argsForDownload);
-
-        downloadProcess.on("error", (err) =>
-          reject(`yt-dlp error: ${err.message}`)
-        );
-
-        downloadProcess.stderr.on("data", (data) => {
-          console.error(`yt-dlp download error: ${data}`);
-        });
-
-        downloadProcess.on("close", (downloadCode) => {
-          if (downloadCode === 0) {
-            resolve(output);
-          } else {
-            reject(`yt-dlp failed with exit code ${downloadCode}`);
-          }
-        });
+    downloadProcess.on("close", (downloadCode) => {
+      if (downloadCode === 0) {
+        resolve(output);
       } else {
-        reject(`yt-dlp failed to fetch title with exit code ${code}`);
+        reject(`yt-dlp failed with exit code ${downloadCode}`);
       }
     });
   });
