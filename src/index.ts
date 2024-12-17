@@ -86,8 +86,8 @@ async function handleMessages(message: any) {
       }
       break;
     }
-    case body.toLowerCase().startsWith("video calidad"): {
-      const args: string[] = body.toLowerCase().split(" ")
+    case body.startsWith("Video calidad"): {
+      const args: string[] = body.split(" ")
       if (args.length != 4) {
         botBaileys.sendText(message.from, "Argumentos no validos: video [calidad] [idDelVideo]")
         return
@@ -99,7 +99,7 @@ async function handleMessages(message: any) {
       );
       try {
         if (videoId) {
-          const videoPath: string = await dlVideo(videoId);
+          const videoPath: string = await dlVideo(videoId, args[2]);
 
           if (videoPath) {
             await botBaileys.sendText(
@@ -162,8 +162,8 @@ async function handleMessages(message: any) {
       botBaileys.sendText(message.from, "conversacion borrada")
       break
     }
-    case body.toLowerCase().startsWith("noargs"): {
-      const videoId = body.toLowerCase().replace("noargs", "").trim();
+    case body.startsWith("noargs"): {
+      const videoId = body.replace("noargs", "").trim();
       botBaileys.sendText(
         message.from,
         `Descargando el video ${videoId} por favor espera...`,
