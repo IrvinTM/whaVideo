@@ -126,6 +126,7 @@ async function handleMessages(message: any) {
         if (fs.existsSync(audio)) {
           await botBaileys.sendFile(message.from, audio);
         }
+        await deleteFile(audio)
       } catch (e: any) {
         botBaileys.sendText(message.from, e);
       }
