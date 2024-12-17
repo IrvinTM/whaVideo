@@ -122,6 +122,7 @@ export async function dlAudio(vid: string): Promise<string> {
 
         const argsForDownload = [
           "-f",
+          "-vU",
           "bestaudio",
           "--cookies",
           cookies,
