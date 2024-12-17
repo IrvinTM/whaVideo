@@ -118,7 +118,7 @@ export async function dlAudio(vid: string): Promise<string> {
     titleProcess.on("close", (code) => {
       if (code === 0) {
         title = title.trim().replace(/[\\/:*?"<>|]/g, ""); // Sanitize the title
-        const output = path.join(__dirname, `${title}`);
+        const output = path.join(__dirname, `${title}.m4a`);
 
         const argsForDownload = [
           "-f",
@@ -127,7 +127,7 @@ export async function dlAudio(vid: string): Promise<string> {
           cookies,
           "-o",
           output,
-          `https://www.youtube.com/watch?v=${vid}`,
+          `https://www.youtube.com/watch?app=desktop&v=${vid}`,
         ];
 
         const downloadProcess = spawn(binPath, argsForDownload);
