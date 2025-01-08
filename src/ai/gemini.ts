@@ -8,7 +8,6 @@ let startParams: StartChatParams = {
   history: []
 };
 
-
 export async function getGeminiCompletion(
   prompt: string,
   model?: string,

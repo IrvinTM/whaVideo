@@ -40,23 +40,7 @@ El archivo cookies.txt debe estar en el directorio raiz del proyecto.
 
 ### Docker
 
-1. Clonar este repositorio:
-   ```bash
-   git clone https://github.com/tu-usuario/whatsapp-bot.git
-   cd whatsapp-bot
-   ```
-   
-2. Constuir
-
-```bash
-docker build -t bot .
-```
-
-3. Iniciar el contenedor
-
-```bash
-docker run bot
-```
+...
 
 ## Problemas y Solución
 
