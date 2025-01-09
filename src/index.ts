@@ -10,6 +10,7 @@ import fs from "fs";
 import { getGeminiCompletion, resetConversation, setSystemPrompt } from "./ai/gemini";
 
 const botBaileys = new BaileysClass({});
+const adminNumber = process.env.ADMIN
 
 botBaileys.on("auth_failure", async (error) =>
   console.log("ERROR BOT: ", error),
@@ -134,7 +135,7 @@ async function handleMessages(message: any) {
     }
     case body.startsWith("Setsystemprompt"):
       {
-        if (message.from == process.env.ADMIN) {
+        if (message.from == adminNumber) {
           const syspr = body.replace("Setsystemprompt", "").trim()
           setSystemPrompt(syspr)
           botBaileys.sendText(message.from, "sistem prompt chnaged")
@@ -145,6 +146,11 @@ async function handleMessages(message: any) {
       }
 
     case body.toLowerCase().startsWith("ia"): {
+
+      if (message.from !== adminNumber) {
+        await botBaileys.sendText(message.from, "No tienes permitida esta opcion xD")
+        break
+      }
 
       try {
         const prompt = body.toLowerCase().replace("ia", "")
@@ -158,7 +164,10 @@ async function handleMessages(message: any) {
     }
 
     case body.toLowerCase().startsWith("f ia"): {
-
+      if (message.from !== adminNumber) {
+        await botBaileys.sendText(message.from, "No tienes permitida esta opcion xD")
+        break
+      }
       try {
         const prompt = body.toLowerCase().replace("f ia", "")
         const answer = await getGeminiCompletion(prompt)
@@ -171,6 +180,10 @@ async function handleMessages(message: any) {
     }
 
     case body.toLowerCase().startsWith("reset ia"): {
+      if (message.from !== adminNumber) {
+        await botBaileys.sendText(message.from, "No tienes permitida esta opcion xD")
+        break
+      }
       resetConversation()
       botBaileys.sendText(message.from, "conversacion borrada")
       break
