@@ -55,7 +55,7 @@ async function handleMessages(message: any) {
           message.from,
           "An error occurred during the search.",
         );
-        console.error(error); // Log para depuración
+        console.error(error);
       }
       break;
     }
@@ -215,8 +215,7 @@ async function handleMessages(message: any) {
       }
       break;
     }
-
-    default: {
+    default:
       botBaileys.sendText(
         message.from,
         `comando no valido\n
@@ -237,7 +236,8 @@ async function handleMessages(message: any) {
          Descargar  SRXH9AbT280
         `,
       );
+      botBaileys.sendText(message.from, `recivi el mesg ${message.body}`)
       break;
-    }
   }
+  return
 }
