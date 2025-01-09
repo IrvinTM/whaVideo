@@ -7,10 +7,14 @@ import {
   dlVideoNoArgs,
 } from "./youtubedl/youtubedl";
 import fs from "fs";
-import { getGeminiCompletion, resetConversation, setSystemPrompt } from "./ai/gemini";
+import {
+  getGeminiCompletion,
+  resetConversation,
+  setSystemPrompt,
+} from "./ai/gemini";
 
 const botBaileys = new BaileysClass({});
-const adminNumber = process.env.ADMIN
+const adminNumber = process.env.ADMIN;
 
 botBaileys.on("auth_failure", async (error) =>
   console.log("ERROR BOT: ", error),
@@ -18,7 +22,7 @@ botBaileys.on("auth_failure", async (error) =>
 
 botBaileys.on("qr", (qr) => console.log("NEW QR CODE: ", qr));
 botBaileys.on("ready", async () => console.log("READY BOT"));
-//restrict to just a number or array of 
+//restrict to just a number or array of
 /* const phoneNumbr = "00000000@s.whatsapp.net"; */
 
 botBaileys.on("message", async (message) => {
@@ -88,12 +92,15 @@ async function handleMessages(message: any) {
       break;
     }
     case body.startsWith("Video calidad"): {
-      const args: string[] = body.split(" ")
+      const args: string[] = body.split(" ");
       if (args.length != 4) {
-        botBaileys.sendText(message.from, "Argumentos no validos: video [calidad] [idDelVideo]")
-        return
+        botBaileys.sendText(
+          message.from,
+          "Argumentos no validos: video [calidad] [idDelVideo]",
+        );
+        return;
       }
-      const videoId = args[3]
+      const videoId = args[3];
       botBaileys.sendText(
         message.from,
         `Descargando el video en calidad ${args[2]} por favor espera...`,
@@ -127,66 +134,71 @@ async function handleMessages(message: any) {
         if (fs.existsSync(audio)) {
           await botBaileys.sendFile(message.from, audio);
         }
-        deleteFile(audio)
+        deleteFile(audio);
       } catch (e: any) {
         botBaileys.sendText(message.from, e);
       }
       break;
     }
-    case body.startsWith("Setsystemprompt"):
-      {
-        if (message.from == adminNumber) {
-          const syspr = body.replace("Setsystemprompt", "").trim()
-          setSystemPrompt(syspr)
-          botBaileys.sendText(message.from, "sistem prompt chnaged")
-        } else {
-          botBaileys.sendText(message.from, "no autorizado")
-        }
+    case body.startsWith("Setsystemprompt"): {
+      if (message.from == adminNumber) {
+        const syspr = body.replace("Setsystemprompt", "").trim();
+        setSystemPrompt(syspr);
+        botBaileys.sendText(message.from, "sistem prompt chnaged");
+      } else {
+        botBaileys.sendText(message.from, "no autorizado");
+      }
+      break;
+    }
+
+    case body.toLowerCase().startsWith("ia"): {
+      if (message.from !== adminNumber) {
+        await botBaileys.sendText(
+          message.from,
+          "No tienes permitida esta opcion xD",
+        );
         break;
       }
 
-    case body.toLowerCase().startsWith("ia"): {
-
-      if (message.from !== adminNumber) {
-        await botBaileys.sendText(message.from, "No tienes permitida esta opcion xD")
-        break
-      }
-
       try {
-        const prompt = body.toLowerCase().replace("ia", "")
-        const answer = await getGeminiCompletion(prompt, undefined, true)
-        await botBaileys.sendText(message.from, answer)
-      }
-      catch (e: any) {
-        botBaileys.sendText(message.from, e.message)
+        const prompt = body.toLowerCase().replace("ia", "");
+        const answer = await getGeminiCompletion(prompt, undefined, true);
+        await botBaileys.sendText(message.from, answer);
+      } catch (e: any) {
+        botBaileys.sendText(message.from, e.message);
       }
       break;
     }
 
     case body.toLowerCase().startsWith("f ia"): {
       if (message.from !== adminNumber) {
-        await botBaileys.sendText(message.from, "No tienes permitida esta opcion xD")
-        break
+        await botBaileys.sendText(
+          message.from,
+          "No tienes permitida esta opcion xD",
+        );
+        break;
       }
       try {
-        const prompt = body.toLowerCase().replace("f ia", "")
-        const answer = await getGeminiCompletion(prompt)
-        await botBaileys.sendText(message.from, answer)
-      }
-      catch (e: any) {
-        botBaileys.sendText(message.from, e)
+        const prompt = body.toLowerCase().replace("f ia", "");
+        const answer = await getGeminiCompletion(prompt);
+        await botBaileys.sendText(message.from, answer);
+      } catch (e: any) {
+        botBaileys.sendText(message.from, e);
       }
       break;
     }
 
     case body.toLowerCase().startsWith("reset ia"): {
       if (message.from !== adminNumber) {
-        await botBaileys.sendText(message.from, "No tienes permitida esta opcion xD")
-        break
+        await botBaileys.sendText(
+          message.from,
+          "No tienes permitida esta opcion xD",
+        );
+        break;
       }
-      resetConversation()
-      botBaileys.sendText(message.from, "conversacion borrada")
-      break
+      resetConversation();
+      botBaileys.sendText(message.from, "conversacion borrada");
+      break;
     }
     case body.startsWith("noargs"): {
       const videoId = body.replace("noargs", "").trim();
@@ -215,7 +227,7 @@ async function handleMessages(message: any) {
       }
       break;
     }
-    default:
+    default: {
       botBaileys.sendText(
         message.from,
         `comando no valido\n
@@ -225,7 +237,7 @@ async function handleMessages(message: any) {
          *Video calidad [calida]* ejemplo "Video calidad 1080" para descargar en calidad 1080
          Calidades disponiibles: 1080, 720, 480
          *Audio* "id del video" para descargar solo el audio
-         *ia* "mensaje" para hablar con la ia 
+         *ia* "mensaje" para hablar con la ia
          *reset ia* para resetear la conversacion *recomendado*
          *f ia* "mensaje" para una respuesta sin recordar la conversacion
 
@@ -236,8 +248,7 @@ async function handleMessages(message: any) {
          Descargar  SRXH9AbT280
         `,
       );
-      botBaileys.sendText(message.from, `recivi el mesg ${message.body}`)
-      break;
+      return;
+    }
   }
-  return
 }
