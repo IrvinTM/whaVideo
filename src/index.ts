@@ -126,7 +126,7 @@ async function handleMessages(message: any) {
         if (fs.existsSync(audio)) {
           await botBaileys.sendFile(message.from, audio);
         }
-        await deleteFile(audio)
+        deleteFile(audio)
       } catch (e: any) {
         botBaileys.sendText(message.from, e);
       }
@@ -203,13 +203,15 @@ async function handleMessages(message: any) {
       break;
     }
 
-    default:
+    default: {
       botBaileys.sendText(
         message.from,
         `comando no valido\n
         enviar:
          *Buscar* "video a buscar" para buscar videos
          *Descargar* "id del video" para descargar un video
+         *Video calidad [calida]* ejemplo "Video calidad 1080" para descargar en calidad 1080
+         Calidades disponiibles: 1080, 720, 480
          *Audio* "id del video" para descargar solo el audio
          *ia* "mensaje" para hablar con la ia 
          *reset ia* para resetear la conversacion *recomendado*
@@ -223,5 +225,6 @@ async function handleMessages(message: any) {
         `,
       );
       break;
+    }
   }
 }
