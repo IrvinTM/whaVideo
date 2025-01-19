@@ -42,17 +42,12 @@ export async function dlVideo(vid: string, quality?: string): Promise<string> {
 
     const args = [
       "-f",
-
+      "-vU",
       qua,
-
       "--cookies",
-
       cookies,
-
       "-o",
-
       output,
-
       `https://www.youtube.com/watch?v=${vid}`,
     ];
 
